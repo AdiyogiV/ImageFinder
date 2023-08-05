@@ -1,6 +1,6 @@
 # ImageFinder App
 
-The ImageFinder App is a powerful tool that allows you to automatically cluster a set of images and retrieve the most suitable image along with its cluster based on a description text.
+The ImageFinder App is a tool that allows you to automatically cluster a set of images and retrieve the most suitable image along with its cluster based on a description text.
 
 
 ## Setup
