@@ -1,6 +1,6 @@
 # ImageFinder App
 
-The ImageFinder App is a powerful tool that allows you to automatically cluster a set of images and retrieve the most suitable image along with its cluster based on a description text. The app also generates meaningful cluster names, making it easy to organize and manage large image collections.
+The ImageFinder App is a powerful tool that allows you to automatically cluster a set of images and retrieve the most suitable image along with its cluster based on a description text.
 
 ## Setup
 
@@ -14,8 +14,9 @@ The ImageFinder App is a powerful tool that allows you to automatically cluster 
 
 ### Run app.py
 1. It initializes the app and frontend.
+   
+![Screenshot 2023-08-05 at 2 46 53 PM](https://github.com/AdiyogiV/ImageFinder/assets/28894829/7485eb75-852a-4a7a-842e-87c3bdfe5335)
 
-![Screenshot](https://raw.githubusercontent.com/AdiyogiV/ImageFinder/main/assets/screenshot.png)
 
 ## How the App Works
 
@@ -30,4 +31,3 @@ The ImageFinder App is a powerful tool that allows you to automatically cluster 
    - The app launches a web-based frontend that displays the clustered image groups.
    - The frontend provides a user-friendly interface to explore the image clusters.
 
-The ImageFinder App streamlines the process of organizing and analyzing image collections, making it easier to find and manage related images. Its auto-clustering and retrieval capabilities, along with a straightforward web interface, make ImageFinder a valuable addition to any image-centric project.
