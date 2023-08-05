@@ -64,7 +64,9 @@ def store_image_features(n):
     
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-
+    if not os.path.exists(images_directory):
+        os.makedirs(images_directory)
+        
     for image_file in os.listdir(images_directory):
         image_path = os.path.join(images_directory, image_file)
         features = image_feature_extraction(image_path)
