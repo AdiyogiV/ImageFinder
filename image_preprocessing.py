@@ -1,4 +1,5 @@
 # image_preprocessing.py
+from multiprocessing import Pool, cpu_count
 from sklearn.cluster import KMeans
 from sklearn.discriminant_analysis import StandardScaler
 from sklearn.manifold import TSNE
@@ -10,6 +11,8 @@ from PIL import Image
 import numpy as np
 import os
 import ssl
+from tqdm import tqdm
+
 def image_feature_extraction(image_path):
     ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -37,6 +40,7 @@ def image_feature_extraction(image_path):
 
     return output.numpy().flatten()
 
+
 def perform_kmeans_clustering(features, num_clusters, output_dir):
     # Feature scaling
     scaler = StandardScaler()
@@ -57,21 +61,26 @@ def perform_kmeans_clustering(features, num_clusters, output_dir):
 
 
 def store_image_features(n):
+    print("Processing Images...")
     current_file_path = os.path.abspath(__file__)
     images_directory = os.path.dirname(current_file_path) + "/static"
     image_features = {}
     output_dir = os.path.dirname(current_file_path) + "/models/"
-    
+
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     if not os.path.exists(images_directory):
         os.makedirs(images_directory)
-        
-    for image_file in os.listdir(images_directory):
-        image_path = os.path.join(images_directory, image_file)
-        features = image_feature_extraction(image_path)
-        if features is not None:  # Check if features are valid (not empty)
-            image_features[image_file] = features
+
+    with Pool(cpu_count()) as p:
+        images = os.listdir(images_directory)
+        total = len(images)
+        with tqdm(total=total) as pbar:
+            for i, features in enumerate(p.imap_unordered(image_feature_extraction, [os.path.join(images_directory, image) for image in images])):
+                image_file = images[i]
+                if features is not None:  # Check if features are valid (not empty)
+                    image_features[image_file] = features
+                pbar.update()
 
     if not image_features:  # Check if any valid features were extracted
         print("No valid image features found. Please check the feature extraction process.")
@@ -81,6 +90,6 @@ def store_image_features(n):
     np.save(output_dir + '/image_features.npy', image_features)
     perform_kmeans_clustering(image_features_array, n, output_dir=output_dir)
 
+if __name__ == "__main__":
 
-
-store_image_features(10)
+    store_image_features(10)
