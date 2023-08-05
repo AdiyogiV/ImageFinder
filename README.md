@@ -2,6 +2,7 @@
 
 The ImageFinder App is a powerful tool that allows you to automatically cluster a set of images and retrieve the most suitable image along with its cluster based on a description text.
 
+
 ## Setup
 
 ### Prerequisites
@@ -31,3 +32,26 @@ The ImageFinder App is a powerful tool that allows you to automatically cluster 
    - The app launches a web-based frontend that displays the clustered image groups.
    - The frontend provides a user-friendly interface to explore the image clusters.
 
+## Features
+
+- **Auto-Clustering:** The app utilizes feature extraction and k-means clustering to automatically group similar images together.
+
+- **Image Retrieval:** Users can input a description, and the app will return the most relevant image along with its group name.
+
+- **Predefined Folder Load:** As part of server startup, the app loads images from a predefined folder and performs clustering on them.
+
+- **API Endpoint:** The app exposes an API endpoint that allows users to retrieve images and their group names based on input descriptions programmatically.
+
+- **Web-based Frontend:** The simple and intuitive web-based frontend showcases the app's functionality, providing a textbox to input image descriptions and displaying the retrieved image along with its group name.
+
+## Tech Stack
+
+The ImageFinder App is built using the following tech stack:
+
+- **Backend:** Python with Flask web framework for creating the server and handling API requests.
+
+- **Image Processing:** OpenCV for image feature extraction and manipulation.
+
+- **Clustering:** scikit-learn for k-means clustering and t-SNE for dimensionality reduction.
+
+- **Frontend:** HTML, CSS, and JavaScript for building the user interface.
