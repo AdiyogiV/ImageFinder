@@ -54,7 +54,7 @@ def perform_kmeans_clustering(features, num_clusters, output_dir):
     if n_samples < num_clusters:
         num_clusters = n_samples
 
-    kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+    kmeans = KMeans(n_clusters=num_clusters, random_state=42, n_init=10)
     clusters = kmeans.fit_predict(reduced_features)
     np.save(output_dir+'/image_clusters.npy', clusters)
     return clusters
