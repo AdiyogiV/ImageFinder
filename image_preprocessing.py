@@ -58,20 +58,27 @@ def perform_kmeans_clustering(features, num_clusters, output_dir):
 
 def store_image_features(n):
     current_file_path = os.path.abspath(__file__)
-    images_directory = os.path.dirname(current_file_path)+"/static"
+    images_directory = os.path.dirname(current_file_path) + "/static"
     image_features = {}
-
-    output_dir = os.path.dirname(current_file_path)+"/models/"
+    output_dir = os.path.dirname(current_file_path) + "/models/"
+    
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    
+
     for image_file in os.listdir(images_directory):
         image_path = os.path.join(images_directory, image_file)
         features = image_feature_extraction(image_path)
-        image_features[image_file] = features
-        image_features_array = np.array(list(image_features.values()))
-    np.save(output_dir+'/image_features.npy', image_features)
+        if features is not None:  # Check if features are valid (not empty)
+            image_features[image_file] = features
+
+    if not image_features:  # Check if any valid features were extracted
+        print("No valid image features found. Please check the feature extraction process.")
+        return
+
+    image_features_array = np.array(list(image_features.values()))
+    np.save(output_dir + '/image_features.npy', image_features)
     perform_kmeans_clustering(image_features_array, n, output_dir=output_dir)
+
 
 
 store_image_features(10)
