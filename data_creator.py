@@ -4,9 +4,9 @@ import os
 def download_images(num_images=300):
     # Define the API endpoint to get random images from Unsplash
     url = f"https://source.unsplash.com/random"
-
+    current_file_path = os.path.abspath(__file__)
     # Create a directory to save the images (if not already present)
-    output_dir = "static"
+    output_dir = os.path.dirname(current_file_path)+"/static"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 

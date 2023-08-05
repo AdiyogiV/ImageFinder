@@ -37,13 +37,13 @@ def image_feature_extraction(image_path):
 
     return output.numpy().flatten()
 
-def perform_kmeans_clustering(features, num_clusters):
+def perform_kmeans_clustering(features, num_clusters, output_dir):
     # Feature scaling
     scaler = StandardScaler()
     scaled_features = scaler.fit_transform(features)
 
     # t-SNE for dimensionality reduction
-    tsne = TSNE(n_components=2, random_state=42)
+    tsne = TSNE(n_components=2,  perplexity=5, random_state=42)
     reduced_features = tsne.fit_transform(scaled_features)
 
     n_samples, _ = reduced_features.shape
@@ -52,21 +52,26 @@ def perform_kmeans_clustering(features, num_clusters):
 
     kmeans = KMeans(n_clusters=num_clusters, random_state=42)
     clusters = kmeans.fit_predict(reduced_features)
-    np.save('models/image_clusters.npy', clusters)
+    np.save(output_dir+'/image_clusters.npy', clusters)
     return clusters
 
 
 def store_image_features(n):
-    images_directory = 'static'
+    current_file_path = os.path.abspath(__file__)
+    images_directory = os.path.dirname(current_file_path)+"/static"
     image_features = {}
 
+    output_dir = os.path.dirname(current_file_path)+"/models/"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
     for image_file in os.listdir(images_directory):
         image_path = os.path.join(images_directory, image_file)
         features = image_feature_extraction(image_path)
         image_features[image_file] = features
         image_features_array = np.array(list(image_features.values()))
-    np.save('models/image_features.npy', image_features)
-    perform_kmeans_clustering(image_features_array, n)
+    np.save(output_dir+'/image_features.npy', image_features)
+    perform_kmeans_clustering(image_features_array, n, output_dir=output_dir)
 
 
 store_image_features(10)
