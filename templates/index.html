@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        textarea {
+            resize: none;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: flex-start;
+            margin-top: 30px;
+        }
+
+        .cluster-image {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* Additional spacing and styling */
+        .container {
+            padding-top: 20px;
+            max-width: 800px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .description-btn {
+            margin-top: 10px;
+        }
+
+        /* Custom CSS for the image container */
+        .image-wrapper {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            width: 48%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom CSS for the table and buttons */
+        .table-wrapper {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            width: 48%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .table-wrapper:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Custom CSS for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+
+        td {
+            text-align: center;
+            padding: 15px;
+        }
+
+        /* Custom CSS for the buttons */
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-find-image {
+            margin-right: 10px;
+        }
+
+        /* Custom CSS for the titles */
+        .app-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Custom CSS for the labels */
+        .label {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* Custom CSS for the description box */
+        .description-box {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Custom CSS for the images in the table */
+        .table-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="app-title">Image Finder</div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form method="POST" class="form-inline justify-content-center">
+                    <div class="form-group w-100">
+                        <textarea id="description" name="description" placeholder="Enter description"
+                            class="form-control mb-2 mr-sm-2 description-box" rows="4"
+                            style="width: 100%;">{% if description %}{{ description }}{% endif %}</textarea>
+                    </div>
+                    <div class="button-wrapper">
+                        <input type="submit" class="btn btn-primary btn-find-image" value="Find Image">
+                        <button type="button" class="btn btn-secondary description-btn"
+                            onclick="clearDescription()">Clear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% if image_path %}
+        <div class="image-container">
+            <div class="image-wrapper">
+                <div class="section-title">Relevant Image</div>
+                <img src="{{ url_for('static', filename=image_path) }}" alt="Relevant Image"
+                    class="img-fluid cluster-image">
+                <p class="label mt-3">Cluster:</p>
+                <p>{{ image_clusters }}</p>
+            </div>
+            <div class="table-wrapper">
+                <div class="section-title">Cluster Information</div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Cluster</th>
+                            <th>Count</th>
+                            <th>Relevant Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cluster, count in cluster_counts.items() %}
+                        <tr>
+                            <td>{{ cluster }}</td>
+                            <td>{{ count }}</td>
+                            <td>
+                                <div class="image-container">
+                                    {% for image in cluster_image_paths[cluster] %}
+                                    <img src="{{ url_for('static', filename=image) }}" class="table-image"
+                                        alt="Cluster {{ cluster }} Image">
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+        <script>
+            function clearDescription() {
+                localStorage.setItem('description', '');
+                document.getElementById('description').value = '';
+                return true;
+            }
+            document.querySelector('form').addEventListener('submit', function (e) {
+                localStorage.setItem('description', document.getElementById('description').value);
+            });
+            // Set the description from localStorage on page load
+            document.getElementById('description').value = localStorage.getItem('description');
+        </script>
+    </div>
+</body>
+
+</html>
