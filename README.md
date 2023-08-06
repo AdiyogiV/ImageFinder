@@ -57,12 +57,12 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
      - Executes KMeans clustering.
      - Cluster data saved for retrieval purposes.
        
-### 5. Web Application Server (`app.py`):
+### 4. Web Application Server (`app.py`):
    - Provides an interactive user interface.
    - Sets up API endpoints for image retrieval.
    - Utilizes `retrieve_image.py` to cater to user queries.
 
-### 4. Image Retrieval (`retrieve_image.py`):
+### 5. Image Retrieval (`retrieve_image.py`):
 
    - **Function**: `retrieve_image(description, num_clusters)`
      - Matches user text description with an image.
