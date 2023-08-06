@@ -19,18 +19,57 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
 ![Screenshot 2023-08-05 at 2 46 53 PM](https://github.com/AdiyogiV/ImageFinder/assets/28894829/7485eb75-852a-4a7a-842e-87c3bdfe5335)
 
 
-## How the App Works
+# ======================== How the ImageFinder Works ======================== #
 
-1. The `init.py` script handles the data preparation and processing:
-   - It downloads a specified number of random images from an external source and saves them in the `images` folder.
-   - Image features, such as color histograms or embeddings, are extracted for each image.
-   - The features are then scaled and reduced using t-SNE to create a lower-dimensional representation of the data.
-   - K-means clustering is applied to group similar images together.
+## 1. Initialization (`init.py`):
+   - **First point of entry**: User starts the process here.
+   - Calls:
+     - `download_images()` from `data_creator.py`: To fetch images.
+     - `store_image_features()` from `image_preprocessing.py`: For preprocessing.
 
-2. After preprocessing, `app.py` initializes the app and frontend:
-   - It loads the preprocessed data and the generated clustering models.
-   - The app launches a web-based frontend that displays the clustered image groups.
-   - The frontend provides a user-friendly interface to explore the image clusters.
+## 2. Image Downloading (`data_creator.py`):
+   - **Function**: `download_images(num_images)`
+     - Downloads images from Unsplash.
+     - Uses multi-threading for enhanced speed.
+     - Saves images to a local directory.
+
+## 3. Image Preprocessing (`image_preprocessing.py`):
+
+   - **Function**: `image_feature_extraction(image_path)`
+     - Transforms image into a feature vector.
+     - Implements MobileNet V2 for this process.
+     - Applies resizing and normalization.
+     - Returns a feature vector.
+
+   - **Function**: `perform_kmeans_clustering(features, num_clusters, output_dir)`
+     - Groups image features into clusters.
+     - Feature scaling is applied for consistency.
+     - Dimensionality reduction using t-SNE.
+     - Executes KMeans clustering.
+     - Cluster data saved for retrieval purposes.
+
+   - **Function**: `store_image_features(n)`
+     - Orchestrates the preprocessing tasks.
+     - Sets up required directories.
+     - Uses multiprocessing for parallel feature extraction.
+     - Calls:
+       - `image_feature_extraction`: For each image.
+       - `perform_kmeans_clustering`: Post feature extraction.
+     - Feature set and cluster data are stored.
+
+## 4. Image Retrieval (`retrieve_image.py`):
+
+   - **Function**: `retrieve_image(description, num_clusters)`
+     - Matches user text description with an image.
+     - Text description is transformed into an embedding via SentenceTransformer.
+     - This embedding is compared against stored image features.
+     - The most similar image and its cluster details are derived.
+     - Outputs the best-matching image and relevant cluster data.
+
+## 5. Web Application Server (`app.py`):
+   - Provides an interactive user interface.
+   - Sets up API endpoints for image retrieval.
+   - Utilizes `retrieve_image.py` to cater to user queries.
 
 ## Features
 
