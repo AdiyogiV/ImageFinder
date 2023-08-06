@@ -50,6 +50,9 @@ def retrieve_image(description, num_clusters):
     relevant_image_cluster = image_clusters[min_distance_image_index]
 
     cluster_counts = Counter(image_clusters)
+    if relevant_image_cluster not in cluster_image_paths:
+        cluster_image_paths[relevant_image_cluster] = []
+
     cluster_image_paths[relevant_image_cluster].append(min_distance_image)
 
 
