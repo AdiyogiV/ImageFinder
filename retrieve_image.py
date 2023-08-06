@@ -27,7 +27,7 @@ def perform_kmeans_clustering(features, num_clusters):
     np.save('image_clusters.npy', clusters)
     return clusters
 
-def retrieve_image(description, num_clusters):
+def retrieve_image(description):
     model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
     embeddings = model.encode(description)
     current_file_path = os.path.abspath(__file__)
@@ -36,7 +36,6 @@ def retrieve_image(description, num_clusters):
 
     min_distance = float('inf')
     min_distance_image = None
-    cluster_image_paths = {cluster: [] for cluster in range(num_clusters)}
 
     for image_file, features in image_features.items():
         distance = np.linalg.norm(embeddings - features)
@@ -50,6 +49,7 @@ def retrieve_image(description, num_clusters):
     relevant_image_cluster = image_clusters[min_distance_image_index]
 
     cluster_counts = Counter(image_clusters)
+    cluster_image_paths = {cluster: [] for cluster in range(len(cluster_counts))}
     if relevant_image_cluster not in cluster_image_paths:
         cluster_image_paths[relevant_image_cluster] = []
 
