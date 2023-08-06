@@ -64,7 +64,7 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
 
 ### 5. Image Retrieval (`retrieve_image.py`):
 
-   - **Function**: `retrieve_image(description, num_clusters)`
+   - **Function**: `retrieve_image(description)`
      - Matches user text description with an image.
      - Text description is transformed into an embedding via SentenceTransformer.
      - This embedding is compared against stored image features.
