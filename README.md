@@ -35,6 +35,15 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
 
 ### 3. Image Preprocessing (`image_preprocessing.py`):
 
+   - **Function**: `store_image_features(n)`
+     - Orchestrates the preprocessing tasks.
+     - Sets up required directories.
+     - Uses multiprocessing for parallel feature extraction.
+     - Calls:
+       - `image_feature_extraction`: For each image.
+       - `perform_kmeans_clustering`: Post feature extraction.
+     - Feature set and cluster data are stored.
+
    - **Function**: `image_feature_extraction(image_path)`
      - Transforms image into a feature vector.
      - Implements MobileNet V2 for this process.
@@ -47,15 +56,11 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
      - Dimensionality reduction using t-SNE.
      - Executes KMeans clustering.
      - Cluster data saved for retrieval purposes.
-
-   - **Function**: `store_image_features(n)`
-     - Orchestrates the preprocessing tasks.
-     - Sets up required directories.
-     - Uses multiprocessing for parallel feature extraction.
-     - Calls:
-       - `image_feature_extraction`: For each image.
-       - `perform_kmeans_clustering`: Post feature extraction.
-     - Feature set and cluster data are stored.
+       
+### 5. Web Application Server (`app.py`):
+   - Provides an interactive user interface.
+   - Sets up API endpoints for image retrieval.
+   - Utilizes `retrieve_image.py` to cater to user queries.
 
 ### 4. Image Retrieval (`retrieve_image.py`):
 
@@ -66,10 +71,7 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
      - The most similar image and its cluster details are derived.
      - Outputs the best-matching image and relevant cluster data.
 
-### 5. Web Application Server (`app.py`):
-   - Provides an interactive user interface.
-   - Sets up API endpoints for image retrieval.
-   - Utilizes `retrieve_image.py` to cater to user queries.
+
 
 ## Features
 
