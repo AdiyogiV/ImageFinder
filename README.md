@@ -19,21 +19,21 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
 ![Screenshot 2023-08-05 at 2 46 53 PM](https://github.com/AdiyogiV/ImageFinder/assets/28894829/7485eb75-852a-4a7a-842e-87c3bdfe5335)
 
 
-# ======================== How the ImageFinder Works ======================== #
+## How the ImageFinder Works  
 
-## 1. Initialization (`init.py`):
+### 1. Initialization (`init.py`):
    - **First point of entry**: User starts the process here.
    - Calls:
      - `download_images()` from `data_creator.py`: To fetch images.
      - `store_image_features()` from `image_preprocessing.py`: For preprocessing.
 
-## 2. Image Downloading (`data_creator.py`):
+### 2. Image Downloading (`data_creator.py`):
    - **Function**: `download_images(num_images)`
      - Downloads images from Unsplash.
      - Uses multi-threading for enhanced speed.
      - Saves images to a local directory.
 
-## 3. Image Preprocessing (`image_preprocessing.py`):
+### 3. Image Preprocessing (`image_preprocessing.py`):
 
    - **Function**: `image_feature_extraction(image_path)`
      - Transforms image into a feature vector.
@@ -57,7 +57,7 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
        - `perform_kmeans_clustering`: Post feature extraction.
      - Feature set and cluster data are stored.
 
-## 4. Image Retrieval (`retrieve_image.py`):
+### 4. Image Retrieval (`retrieve_image.py`):
 
    - **Function**: `retrieve_image(description, num_clusters)`
      - Matches user text description with an image.
@@ -66,7 +66,7 @@ The ImageFinder App is a tool that allows you to automatically cluster a set of 
      - The most similar image and its cluster details are derived.
      - Outputs the best-matching image and relevant cluster data.
 
-## 5. Web Application Server (`app.py`):
+### 5. Web Application Server (`app.py`):
    - Provides an interactive user interface.
    - Sets up API endpoints for image retrieval.
    - Utilizes `retrieve_image.py` to cater to user queries.
