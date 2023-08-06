@@ -7,7 +7,7 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         description = request.form['description']
-        image_path, image_clusters, cluster_counts, cluster_image_paths = retrieve_image(description, 10)
+        image_path, image_clusters, cluster_counts, cluster_image_paths = retrieve_image(description)
         return render_template('index.html', image_path=image_path, image_clusters=image_clusters, cluster_counts=cluster_counts, cluster_image_paths=cluster_image_paths)
     return render_template('index.html')
 
